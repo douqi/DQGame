@@ -3,7 +3,7 @@
     "isLandscape": false,
     "name": "DQGame",
     "width": 720,
-    "height": 480,
+    "height": 580,
     "entry": "src/DLHome.lua",
     "consolePort": 6010,
     "forwardConsolePort": 10089,

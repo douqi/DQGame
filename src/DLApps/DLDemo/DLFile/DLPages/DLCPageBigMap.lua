@@ -133,6 +133,7 @@ function M:addMainNode()
     node:addChild(self.mSprite.node)
 
     local ds = DLSprite.create("gi_demo_ads.jpg", false)
+    ds:setScale(DLResolution.SCALE_MAX)
     self.mSprite.node:addChild(ds)
 
     self.mSprite.xy["0-0"] = ds
@@ -184,11 +185,21 @@ function M:optimize(px, py)
     local y2 = y1 + dy
 
     ---- try load and release sprites
-    do
-        local pix1 = math.floor((x2 + 640) / 640)
+    do 
+        local width 
+        local height
+        if dz.dpx(1) > dz.dpy(1) then
+            width = dz.dpx(640)
+            height = dz.dpx(960)
+        else
+            width = dz.dpy(640)
+            height = dz.dpy(960)
+        end
+        
+        local pix1 = math.floor((x2 + width) / width)
         local pix2 = pix1 - 1
         
-        local piy1 = math.floor((y2 + 960) / 960)
+        local piy1 = math.floor((y2 + height) / height)
         local piy2 = piy1 - 1
 
         local arrLoad = {cc.p(pix1,piy1),cc.p(pix1,piy2),cc.p(pix2,piy1),cc.p(pix2,piy2),}
@@ -197,7 +208,8 @@ function M:optimize(px, py)
             local pi = arrLoad[i]
             if sprites.xy[string.format("%d-%d", pi.x, pi.y)] == nil then
                 local ds = DLSprite.create("gi_demo_ads.jpg", false)
-                ds:setPosition(dz.p(0-640*pi.x, 0-960*pi.y))
+                ds:setScale(DLResolution.SCALE_MAX)
+                ds:setPosition(dz.p(0-width*pi.x, 0-height*pi.y))
                 node:addChild(ds)
                 sprites.xy[string.format("%d-%d", pi.x, pi.y)] = ds
             end 
