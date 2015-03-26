@@ -131,8 +131,11 @@ function M:addMainNode()
     
     self.mSprite.node = cc.Node:create()
     node:addChild(self.mSprite.node)
-
-    local ds = DLSprite.create("gi_demo_ads.jpg", false)
+    
+    local cache = cc.SpriteBatchNode:create("gi_demo_ads.jpg",1000)
+    self.mSprite.texture = cache:getTexture()
+    
+    local ds = cc.Sprite:createWithTexture(self.mSprite.texture) --DLSprite.create("gi_demo_ads.jpg", false)
     ds:setScale(DLResolution.SCALE_MAX)
     self.mSprite.node:addChild(ds)
 
@@ -207,7 +210,8 @@ function M:optimize(px, py)
         for i=1, #(arrLoad) do
             local pi = arrLoad[i]
             if sprites.xy[string.format("%d-%d", pi.x, pi.y)] == nil then
-                local ds = DLSprite.create("gi_demo_ads.jpg", false)
+--                local ds = DLSprite.create("gi_demo_ads.jpg", false)
+                local ds = cc.Sprite:createWithTexture(self.mSprite.texture)
                 ds:setScale(DLResolution.SCALE_MAX)
                 ds:setPosition(dz.p(0-width*pi.x, 0-height*pi.y))
                 node:addChild(ds)
